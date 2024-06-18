@@ -1,5 +1,5 @@
 CXX=clang++
-CXXFLAGS=-std=c++17 -Werror 
+CXXFLAGS=-std=c++17 -Werror -Wall
 VALGRIND_FLAGS=--leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --error-exitcode=99
 
 SOURCES=src/Complex.cpp
@@ -59,7 +59,7 @@ testvalgrind: test
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./test 2>&1 | { egrep "==" || true; }
 
 clean:
-	rm -f *.o main_demo test
+	rm -f *.o demo test
 	rm -f src/*.o
 	rm -f src/iterators/*.o
 	rm -f tests/*.o
