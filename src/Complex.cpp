@@ -1,5 +1,6 @@
 #include <cmath>
 #include <ostream>
+#include <sstream>
 #include "../include/Complex.h"
 
 
@@ -60,4 +61,12 @@ bool Complex::operator>=(const Complex &other) const {
 std::ostream &operator<<(std::ostream &os, const Complex &c) {
     os << c.real << " + " << c.imag << "i";
     return os;
+}
+
+
+// Method to return string representation
+std::string Complex::to_string_complex() const {
+    std::ostringstream os;
+    os << real << " + " << imag << "i";
+    return os.str();
 }

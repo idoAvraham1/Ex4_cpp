@@ -1,6 +1,7 @@
 CXX=clang++
-CXXFLAGS=-std=c++17 -Werror -Wall
+CXXFLAGS=-std=c++20 -Werror -Wall
 VALGRIND_FLAGS=--leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --error-exitcode=99
+LDFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 
 SOURCES=src/Complex.cpp
 DEMO_SOURCES=main.cpp
@@ -35,7 +36,7 @@ demo: $(DEMO_OBJECTS) $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(DEMO_OBJECTS) $(OBJECTS) -o demo $(LDFLAGS)
 
 test: $(TESTOBJECTS) $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(TESTOBJECTS) $(OBJECTS) -o test $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(TESTOBJECTS) $(OBJECTS) -o test 
 
 src/%.o: src/%.cpp $(HEADERS) $(TEMPLATES)
 	$(CXX) $(CXXFLAGS) -c $< -o $@

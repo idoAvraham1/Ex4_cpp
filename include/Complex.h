@@ -33,6 +33,9 @@ public:
 
   // Output stream operator
   friend std::ostream &operator<<(std::ostream &os, const Complex &c);
+
+
+  std::string to_string_complex() const;
 };
 
 #endif // CPP_EX4_COMPLEX_H

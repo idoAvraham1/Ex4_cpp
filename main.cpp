@@ -3,7 +3,7 @@
 #include "include/Tree.h"
 #include <iostream>
 #include <string>
-
+#include <unistd.h>
 
 using namespace std;
 
@@ -27,7 +27,8 @@ int main() {
   complex_tree.add_sub_node(root_node_complex, n1_complex);
   complex_tree.add_sub_node(root_node_complex, n2_complex);
   complex_tree.add_sub_node(n1_complex, n3_complex);
-
+ 
+  complex_tree.drawTree();
   /*
           Expected tree structure:
                                       (1 , 1i)
@@ -39,8 +40,11 @@ int main() {
        */
 
   for (auto node = complex_tree.begin_in_order(); node != complex_tree.end_in_order(); ++node) {
-    cout << node->value << endl;
+    cout << node->get_value() <<", ";
   }
+   cout<<""<<endl;
+
+ 
 
  Node<double> root_node = Node(1.1);
     Tree<double> tree; // Binary tree that contains doubles.
@@ -65,34 +69,37 @@ int main() {
      *   /  \      /
      *  1.4  1.5  1.6
      */
-
+    tree.drawTree();
     for (auto node = tree.begin_pre_order(); node != tree.end_pre_order(); ++node)
     {
-        cout << node->get_value() << endl;
+        cout << node->get_value() <<", ";
     } // prints: 1.1, 1.2, 1.4, 1.5, 1.3, 1.6
+     cout<<""<<endl;
 
     for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
     {
-        cout << node->get_value() << endl;
+        cout << node->get_value() <<", ";
     } // prints: 1.4, 1.5, 1.2, 1.6, 1.3, 1.1
+     cout<<""<<endl;
 
     for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
     {
-        cout << node->get_value() << endl;
+         cout << node->get_value() <<", ";
     } // prints: 1.4, 1.2, 1.5, 1.1, 1.6, 1.3
+     cout<<""<<endl;
 
     for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
     {
-        cout << node->get_value() << endl;
+         cout << node->get_value() <<", ";
     } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+     cout<<""<<endl;
 
     for (auto node : tree)
     {
-        cout << node->get_value() << endl;
+        cout << node->get_value() <<", ";
     } // same as BFS: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
-
-    //cout << tree; // Should print the graph using GUI.
-
+    cout<<""<<endl;
+    
     Tree<double,3> three_ary_tree; // 3-ary tree.
     three_ary_tree.add_root(root_node);
     three_ary_tree.add_sub_node(root_node, n1);
@@ -100,7 +107,7 @@ int main() {
     three_ary_tree.add_sub_node(root_node, n3);
     three_ary_tree.add_sub_node(n1, n4);
     three_ary_tree.add_sub_node(n2, n5);
-
+    three_ary_tree.drawTree();
      // The tree should look like:
     /**
      *       root = 1.1
@@ -109,5 +116,38 @@ int main() {
      *   /        |
      *  1.5      1.6
      */
+
+
+    string s1 = "HOW";
+    string s2 = "CAN";
+    string s3 = "I";
+    string s4 = "BE";
+    string s5 = "HOMO!?";
+    string s6 = "SHLOMI";
+    string s7 = "GAY";
+    //string s9 = "SHLOMI-GAY!";
+
+    Node<string> root_string(s1);
+    Node<string> n1_string(s2);
+    Node<string> n2_string(s3);
+    Node<string> n3_string(s4);
+    Node<string> n4_string(s5);
+    Node<string> n5_string(s6);
+    Node<string> n6_string(s7);
+   // Node<string> n8_string(s9);
+    
+
+    Tree<string,3> three_ary_tree_strings; // 3-ary tree.
+    three_ary_tree_strings.add_root(root_string);
+    three_ary_tree_strings.add_sub_node(root_string, n1_string);
+    three_ary_tree_strings.add_sub_node(root_string, n2_string);
+    three_ary_tree_strings.add_sub_node(root_string, n3_string);
+    three_ary_tree_strings.add_sub_node(n1_string, n4_string);
+    three_ary_tree_strings.add_sub_node(n2_string, n5_string);
+    three_ary_tree_strings.add_sub_node(n3_string, n6_string);
+    three_ary_tree_strings.drawTree();
+
+
+  
   
 }

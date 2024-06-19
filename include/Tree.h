@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include "Node.h"
+#include "Complex.h"
 #include "iterators/BFSIterator.h"
 #include "iterators/DFSIterator.h"
 #include "iterators/InOrderIterator.h"
@@ -11,13 +12,27 @@
 #include "iterators/PreOrderIterator.h"
 #include <iostream>
 #include <queue>
+#include <SFML/Graphics.hpp>
+#include <cmath>
 
-template <typename T, size_t k = 2> class Tree {
+// Utility function to convert different types to string
+template<typename T>
+std::string to_string(const T& value) {
+    if constexpr (std::is_same_v<T, std::string>) {
+        return value;
+    } else if constexpr (std::is_same_v<T, Complex>) {
+        return value.to_string_complex();
+    } else {
+        return std::to_string(value);
+    }
+}
+
+template <typename T, size_t k = 2> 
+class Tree {
 private:
   Node<T> *root;
 
   void clear(Node<T> *node);
-
   Node<T> *find_node(Node<T> *node, T value);
 
 public:
@@ -25,7 +40,6 @@ public:
   ~Tree();
 
   void add_root(Node<T> &root_node);
-
   bool add_sub_node(Node<T> &parent_node, Node<T> &sub_node);
 
   // Iterator methods
@@ -39,26 +53,19 @@ public:
   typename IteratorType<T, k>::InOrder end_in_order();
 
   BFSIterator<T, k> begin_bfs_scan();
-
   BFSIterator<T, k> end_bfs_scan();
 
   DFSIterator<T, k> begin_dfs();
-
   DFSIterator<T, k> end_dfs();
 
   BFSIterator<T, k> begin();
-
   BFSIterator<T, k> end();
 
   MinHeapIterator<T, k> begin_min_heap();
   MinHeapIterator<T, k> end_min_heap();
 
-  // Make the TreeWidget class a friend to access private members
-  template <typename U, size_t m> friend class TreeWidget;
-
-  // Override the << operator to use Qt for graphical output
-  template <typename U, size_t m>
-  friend std::ostream &operator<<(std::ostream &os, const Tree<U, m> &tree);
+  // New method to draw the tree
+  void drawTree();
 };
 
 #include "../src/Tree.tpp" // Include the implementation file

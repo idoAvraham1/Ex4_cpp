@@ -1,4 +1,6 @@
 #include "../include/Tree.h"
+#include <sstream>
+#include <string>
 
 template <typename T, size_t k>
 Tree<T, k>::Tree() : root(nullptr) { // Constructor with default arity
@@ -110,7 +112,6 @@ template <typename T, size_t k> BFSIterator<T, k> Tree<T, k>::end() {
   return BFSIterator<T, k>(nullptr);
 }
 
-// Method to get the beginning of the min-heap iterator
 template <typename T, size_t k>
 MinHeapIterator<T, k> Tree<T, k>::begin_min_heap() {
   if (k == 2)
@@ -119,11 +120,93 @@ MinHeapIterator<T, k> Tree<T, k>::begin_min_heap() {
     throw std::runtime_error("The tree isn't binary tree!");
 }
 
-// Method to get the end of the min-heap iterator
 template <typename T, size_t k>
 MinHeapIterator<T, k> Tree<T, k>::end_min_heap() {
   if (k == 2)
     return MinHeapIterator<T, k>(nullptr); // End iterator
   else
     throw std::runtime_error("The tree isn't binary tree!");
+}
+
+
+template <typename T, size_t k>
+void Tree<T, k>::drawTree() {
+   if (!root) return;
+
+   if (!root) return;
+
+    // Constants for drawing
+    const float windowWidth = 800;
+    const float windowHeight = 600;
+    const float nodeRadius = 40; // Increased node radius
+    const float verticalSpacing = 130;
+
+    // Create a window
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Tree Visualization");
+
+    // Load the font
+    sf::Font font;
+    if (!font.loadFromFile("fonts/waltograph42.ttf")) {
+        std::cerr << "Error loading font\n";
+        return;
+    }
+
+    // Function to recursively draw the nodes
+    std::function<void(Node<T>*, float, float, float)> drawNode =
+        [&](Node<T>* node, float x, float y, float xOffset) {
+            if (!node) return;
+
+            // Recursively draw the children
+            float newXOffset = xOffset / 2;
+            float childX = x - xOffset * ((node->children.size() - 1) / 2.0f);
+            float childY = y + verticalSpacing;
+            for (auto child : node->children) {
+                if (child) {
+                    // Draw the line connecting the node to its child
+                    sf::Vertex line[] = {
+                        sf::Vertex(sf::Vector2f(x, y), sf::Color::Red),
+                        sf::Vertex(sf::Vector2f(childX, childY), sf::Color::Red)
+                    };
+                    window.draw(line, 2, sf::Lines);
+
+                    // Draw the child node
+                    drawNode(child, childX, childY, newXOffset);
+                    childX += xOffset;
+                }
+            }
+
+            // Draw the node
+            sf::CircleShape circle(nodeRadius);
+            circle.setFillColor(sf::Color::White); // White fill color for empty circle
+            circle.setOutlineColor(sf::Color::Blue); // Blue outline color
+            circle.setOutlineThickness(3); // Outline thickness to create empty circle effect
+            circle.setPosition(x - nodeRadius, y - nodeRadius);
+            window.draw(circle);
+
+            
+          
+            // Draw the node's value
+            std::string to_draw = to_string(node->get_value());
+            sf::Text text(to_draw, font, 20);
+            text.setFillColor(sf::Color::Black); // Black text color
+            // Center the text in the circle
+            sf::FloatRect textRect = text.getLocalBounds();
+            text.setOrigin(textRect.left + textRect.width / 2.0f,
+                           textRect.top + textRect.height / 2.0f);
+            text.setPosition(x, y);
+            window.draw(text);
+        };
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        window.clear(sf::Color::White); // White background color
+        drawNode(root, windowWidth / 2, nodeRadius * 2, windowWidth / 4);
+        window.display();
+    }
 }
