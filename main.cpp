@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include "include/Complex.h"
 #include "include/Node.h"
 #include "include/Tree.h"
@@ -46,7 +48,7 @@ int main() {
 
  
 
- Node<double> root_node = Node(1.1);
+    Node<double> root_node = Node(1.1);
     Tree<double> tree; // Binary tree that contains doubles.
     tree.add_root(root_node);
     Node<double> n1 = Node(1.2);
@@ -118,24 +120,13 @@ int main() {
      */
 
 
-    string s1 = "HOW";
-    string s2 = "CAN";
-    string s3 = "I";
-    string s4 = "BE";
-    string s5 = "HOMO!?";
-    string s6 = "SHLOMI";
-    string s7 = "GAY";
-    //string s9 = "SHLOMI-GAY!";
-
-    Node<string> root_string(s1);
-    Node<string> n1_string(s2);
-    Node<string> n2_string(s3);
-    Node<string> n3_string(s4);
-    Node<string> n4_string(s5);
-    Node<string> n5_string(s6);
-    Node<string> n6_string(s7);
-   // Node<string> n8_string(s9);
-    
+ Node<std::string> root_string("HOW");
+ Node<std::string> n1_string("CAN");
+ Node<std::string> n2_string("I");
+ Node<std::string> n3_string("BE");
+ Node<std::string> n4_string("HOMO!?");
+ Node<std::string> n5_string("SHLOMI");
+ Node<std::string> n6_string("GAY");
 
     Tree<string,3> three_ary_tree_strings; // 3-ary tree.
     three_ary_tree_strings.add_root(root_string);
@@ -147,7 +138,5 @@ int main() {
     three_ary_tree_strings.add_sub_node(n3_string, n6_string);
     three_ary_tree_strings.drawTree();
 
-
-  
   
 }

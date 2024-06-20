@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #ifndef BFS_ITERATOR_H
 #define BFS_ITERATOR_H
 

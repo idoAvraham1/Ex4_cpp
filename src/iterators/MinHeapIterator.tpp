@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include "../../include/iterators/MinHeapIterator.h"
 #include <algorithm>
 
@@ -25,12 +27,6 @@ void MinHeapIterator<T, k>::traverse(Node<T> *node) {
     std::sort(heap.begin(), heap.end(), [](Node<T>* a, Node<T>* b) {
         return a->value < b->value;
     });
-
-    std::cout << "Final sorted heap values: ";
-    for (auto node1 : heap) {
-        std::cout << node1->value << ", ";
-    }
-    std::cout << std::endl;
 
 }
 

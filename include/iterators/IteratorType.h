@@ -1,4 +1,5 @@
-
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #ifndef CPP_EX4_ITERATORTYPE_H
 #define CPP_EX4_ITERATORTYPE_H
 

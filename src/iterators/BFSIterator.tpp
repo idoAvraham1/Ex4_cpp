@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include "../../include/iterators/BFSIterator.h"
 
 // Constructor initializes the iterator with the root node

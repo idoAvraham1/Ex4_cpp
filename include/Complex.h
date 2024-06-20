@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #ifndef CPP_EX4_COMPLEX_H
 #define CPP_EX4_COMPLEX_H
 
@@ -21,7 +23,6 @@ public:
   Complex operator+(const Complex &other) const;
   Complex operator-(const Complex &other) const;
   Complex operator*(const Complex &other) const;
-  Complex operator/(const Complex &other) const;
 
   // Overloaded operators for comparison
   bool operator==(const Complex &other) const;

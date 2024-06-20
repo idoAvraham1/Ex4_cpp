@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include "../../include/iterators/InOrderIterator.h"
 
 // Push all left children of a node onto the stack

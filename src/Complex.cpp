@@ -1,3 +1,5 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include <cmath>
 #include <ostream>
 #include <sstream>
@@ -27,10 +29,6 @@ Complex Complex::operator*(const Complex &other) const {
     return {real * other.real - imag * other.imag, real * other.imag + imag * other.real};
 }
 
-Complex Complex::operator/(const Complex &other) const {
-    double denom = other.real * other.real + other.imag * other.imag;
-    return {(real * other.real + imag * other.imag) / denom, (imag * other.real - real * other.imag) / denom};
-}
 
 // Overloaded operators for comparison
 bool Complex::operator==(const Complex &other) const {

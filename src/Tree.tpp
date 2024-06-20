@@ -1,117 +1,149 @@
+// written by Ido Avraham : 208699181
+// EMAIL: idoavraham086@gmail.com
 #include "../include/Tree.h"
 #include <sstream>
 #include <string>
 
+// Constructor with default arity
 template <typename T, size_t k>
-Tree<T, k>::Tree() : root(nullptr) { // Constructor with default arity
+Tree<T, k>::Tree() : root(nullptr) {
   if (k <= 0) {
     throw std::runtime_error("Arity of the tree must be greater than 0");
   }
 }
 
-template <typename T, size_t k> Tree<T, k>::~Tree() { clear(root); }
+// Destructor to clear the tree
+template <typename T, size_t k>
+Tree<T, k>::~Tree() {
+  clear(root);
+}
 
-template <typename T, size_t k> void Tree<T, k>::clear(Node<T> *node) {
+// Recursive function to clear the tree
+template <typename T, size_t k>
+void Tree<T, k>::clear(Node<T> *node) {
   if (node) {
     for (auto child : node->children) {
-      clear(child);
+      clear(child); // Clear each child
     }
-    delete node;
+    delete node; // Delete the node itself
   }
 }
 
-template <typename T, size_t k> void Tree<T, k>::add_root(Node<T> &root_node) {
-  root =
-      new Node<T>(root_node.value, k); // Initialize root with the correct arity
+// Add root to the tree
+template <typename T, size_t k>
+void Tree<T, k>::add_root(Node<T> &root_node) {
+  root = new Node<T>(root_node.value, k); // Initialize root with the correct arity
 }
 
+// Add sub-node to a parent node
 template <typename T, size_t k>
 bool Tree<T, k>::add_sub_node(Node<T> &parent_node, Node<T> &sub_node) {
-  Node<T> *parent = find_node(root, parent_node.value);
+  Node<T> *parent = find_node(root, parent_node.value); // Find the parent node
   if (parent) {
     for (size_t i = 0; i < parent->k; ++i) {
       if (!parent->children[i]) {
-        parent->children[i] = new Node<T>(
-            sub_node.value, k); // Initialize sub_node with the correct arity
-        return true;
+        parent->children[i] = new Node<T>(sub_node.value, k); // Initialize sub_node with the correct arity
+        return true; // Successfully added sub-node
       }
     }
   }
-  return false;
+   // Failed to add sub-node
+   throw std::runtime_error("Failed to add sub-node!");
 }
 
+// Find a node by value
 template <typename T, size_t k>
 Node<T> *Tree<T, k>::find_node(Node<T> *node, T value) {
   if (!node)
     return nullptr;
 
   if (node->value == value)
-    return node;
+    return node; // Node found
 
   for (auto child : node->children) {
-    Node<T> *result = find_node(child, value);
+    Node<T> *result = find_node(child, value); // Recursive search in children
     if (result)
       return result;
   }
 
-  return nullptr;
+  return nullptr; // Node not found
 }
 
 // Iterator methods
+
+// Begin pre-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::PreOrder Tree<T, k>::begin_pre_order() {
   return typename IteratorType<T, k>::PreOrder(root);
 }
 
+// End pre-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::PreOrder Tree<T, k>::end_pre_order() {
   return typename IteratorType<T, k>::PreOrder(nullptr);
 }
 
+// Begin post-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::PostOrder Tree<T, k>::begin_post_order() {
   return typename IteratorType<T, k>::PostOrder(root);
 }
 
+// End post-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::PostOrder Tree<T, k>::end_post_order() {
   return typename IteratorType<T, k>::PostOrder(nullptr);
 }
 
+// Begin in-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::InOrder Tree<T, k>::begin_in_order() {
   return typename IteratorType<T, k>::InOrder(root);
 }
 
+// End in-order traversal
 template <typename T, size_t k>
 typename IteratorType<T, k>::InOrder Tree<T, k>::end_in_order() {
   return typename IteratorType<T, k>::InOrder(nullptr);
 }
 
-template <typename T, size_t k> BFSIterator<T, k> Tree<T, k>::begin_bfs_scan() {
+// Begin BFS traversal
+template <typename T, size_t k>
+BFSIterator<T, k> Tree<T, k>::begin_bfs_scan() {
   return BFSIterator<T, k>(root);
 }
 
-template <typename T, size_t k> BFSIterator<T, k> Tree<T, k>::end_bfs_scan() {
+// End BFS traversal
+template <typename T, size_t k>
+BFSIterator<T, k> Tree<T, k>::end_bfs_scan() {
   return BFSIterator<T, k>(nullptr);
 }
 
-template <typename T, size_t k> DFSIterator<T, k> Tree<T, k>::begin_dfs() {
+// Begin DFS traversal
+template <typename T, size_t k>
+DFSIterator<T, k> Tree<T, k>::begin_dfs() {
   return DFSIterator<T, k>(root);
 }
 
-template <typename T, size_t k> DFSIterator<T, k> Tree<T, k>::end_dfs() {
+// End DFS traversal
+template <typename T, size_t k>
+DFSIterator<T, k> Tree<T, k>::end_dfs() {
   return DFSIterator<T, k>(nullptr);
 }
 
-template <typename T, size_t k> BFSIterator<T, k> Tree<T, k>::begin() {
+// Begin BFS iterator
+template <typename T, size_t k>
+BFSIterator<T, k> Tree<T, k>::begin() {
   return BFSIterator<T, k>(root);
 }
 
-template <typename T, size_t k> BFSIterator<T, k> Tree<T, k>::end() {
+// End BFS iterator
+template <typename T, size_t k>
+BFSIterator<T, k> Tree<T, k>::end() {
   return BFSIterator<T, k>(nullptr);
 }
 
+// Begin Min-Heap traversal
 template <typename T, size_t k>
 MinHeapIterator<T, k> Tree<T, k>::begin_min_heap() {
   if (k == 2)
@@ -120,6 +152,7 @@ MinHeapIterator<T, k> Tree<T, k>::begin_min_heap() {
     throw std::runtime_error("The tree isn't binary tree!");
 }
 
+// End Min-Heap traversal
 template <typename T, size_t k>
 MinHeapIterator<T, k> Tree<T, k>::end_min_heap() {
   if (k == 2)
@@ -128,11 +161,9 @@ MinHeapIterator<T, k> Tree<T, k>::end_min_heap() {
     throw std::runtime_error("The tree isn't binary tree!");
 }
 
-
+// Draw the tree using SFML
 template <typename T, size_t k>
 void Tree<T, k>::drawTree() {
-   if (!root) return;
-
    if (!root) return;
 
     // Constants for drawing
@@ -183,8 +214,6 @@ void Tree<T, k>::drawTree() {
             circle.setPosition(x - nodeRadius, y - nodeRadius);
             window.draw(circle);
 
-            
-          
             // Draw the node's value
             std::string to_draw = to_string(node->get_value());
             sf::Text text(to_draw, font, 20);
