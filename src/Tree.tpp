@@ -48,7 +48,7 @@ bool Tree<T, k>::add_sub_node(Node<T> &parent_node, Node<T> &sub_node) {
     }
   }
    // Failed to add sub-node
-   throw std::runtime_error("Failed to add sub-node!");
+  throw std::runtime_error("Failed to add sub-node!");
 }
 
 // Find a node by value

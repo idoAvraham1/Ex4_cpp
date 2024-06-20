@@ -502,4 +502,34 @@ TEST_CASE("Extreme cases") {
         check_iterator_values(single_node_tree.begin_bfs_scan(), single_node_tree.end_bfs_scan(), expected_values);
         check_iterator_values(single_node_tree.begin_min_heap(), single_node_tree.end_min_heap(), expected_values);
     }
+
+    SUBCASE("add more then k childerns to a node"){
+        Node<int> root_node(42);
+        Node<int> n1(52);
+        Node<int> n2(62);
+        Node<int> n3(42);
+        Node<int> n4(102);
+        Node<int> n5(102);
+
+        Tree<int, 3> tree;
+        tree.add_root(root_node);
+        tree.add_sub_node(root_node , n1);
+        tree.add_sub_node(root_node , n2);
+        tree.add_sub_node(root_node , n3);
+
+        // now the root is full , add another node
+        CHECK_THROWS_AS(tree.add_sub_node(root_node, n4), std::runtime_error);
+    }
+
+    SUBCASE("add node to non exsisting parent"){
+        Node<int> root_node(42);
+        Node<int> n1(52);
+        Node<int> n2(62);
+
+         Tree<int, 3> tree;
+         tree.add_root(root_node);
+
+        // try to add n1 as child to n2 (not in the tree)
+        CHECK_THROWS_AS(tree.add_sub_node(n2 , n1),std::runtime_error);
+    }
 }
