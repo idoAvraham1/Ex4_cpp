@@ -21,15 +21,11 @@ HEADERS=include/Node.h \
         include/iterators/DFSIterator.h \
         include/iterators/MinHeapIterator.h \
         include/Complex.h \
-        include/TreeWidget.h
+        include/BaseIterator.h \
+
 
 TEMPLATES=src/Node.tpp \
           src/Tree.tpp \
-          src/iterators/PreOrderIterator.tpp \
-          src/iterators/PostOrderIterator.tpp \
-          src/iterators/InOrderIterator.tpp \
-          src/iterators/BFSIterator.tpp \
-          src/iterators/DFSIterator.tpp \
           src/iterators/MinHeapIterator.tpp
 
 demo: $(DEMO_OBJECTS) $(OBJECTS)

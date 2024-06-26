@@ -1,26 +1,41 @@
-// written by Ido Avraham : 208699181
-// EMAIL: idoavraham086@gmail.com
-#ifndef CPP_EX4_PREORDERITERATOR_H
-#define CPP_EX4_PREORDERITERATOR_H
-#include "../Node.h"
-#include "stack"
+#ifndef PREORDERITERATOR_H
+#define PREORDERITERATOR_H
 
-template<typename T, size_t k = 2>
-class PreOrderIterator {
+#include <stack>
+#include "BaseIterator.h"
+#include "../../include/Node.h"
+
+template<typename T, size_t k>
+class PreOrderIterator : public BaseIterator<T> {
 private:
-    Node<T>* current;           // Pointer to the current node in the traversal
-    std::stack<Node<T>*> stack; // Stack to manage the nodes for traversal
+    std::stack<Node<T>*> stack;
 
 public:
-    explicit PreOrderIterator(Node<T>* root);
-    PreOrderIterator<T, k>& operator++();
-    Node<T>* operator*();
-    Node<T>* operator->();
-    bool operator!=(const PreOrderIterator<T, k>& other) const;
-    bool operator==(const PreOrderIterator<T, k>& other) const;
+   explicit PreOrderIterator(Node<T>* root) {
+        if (root) {
+            stack.push(root);  // Push the root node onto the stack
+        }
+        ++(*this);  // Move to the first element
+    }
+
+    PreOrderIterator<T, k>& operator++() {
+        if (stack.empty()) {  // Check if the stack is empty
+            this->current = nullptr;  // If empty, set current to nullptr (end of traversal)
+            return *this;
+        }
+        this->current = stack.top();  // Set current to the node on top of the stack
+        stack.pop();
+
+        // Push children of the current node to the stack in reverse order
+        const auto& children = this->current->get_children();
+        for (int i = children.size() - 1; i >= 0; --i) {
+            // Push each non-null child onto the stack
+            if (children[i]) {
+                stack.push(children[i]);
+            }
+        }
+        return *this;  // Return the iterator
+    }
 };
 
-#include "../../src/iterators/PreOrderIterator.tpp" // Include the implementation file
-
-
-#endif //CPP_EX4_PREORDERITERATOR_H
+#endif // PREORDERITERATOR_H

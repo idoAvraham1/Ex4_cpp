@@ -4,34 +4,46 @@
 #define BFS_ITERATOR_H
 
 #include "../Node.h"
+#include "BaseIterator.h"
 #include <queue>
 
 template<typename T, size_t k = 2>
-class BFSIterator {
+class BFSIterator : public BaseIterator<T> {
 private:
-    Node<T> *current;              // Pointer to the current node in the traversal
-    std::queue<Node<T> *> queue;   // Queue to manage the nodes for BFS traversal
+    std::queue<Node<T>*> queue;
 
 public:
-    // Constructor initializes the iterator with the root node
-    explicit BFSIterator(Node<T> *root);
+    explicit BFSIterator(Node<T>* root) {
+        if (root) {
+            queue.push(root);  // Push the root node onto the queue
+        }
+        ++(*this);  // Move to the first element
+    }
 
-    // Pre-increment operator to advance the iterator
-    BFSIterator<T, k>& operator++();
+    BFSIterator<T, k>& operator++() {
+        // If the queue is empty, the traversal is complete
+        if (queue.empty()) {
+            this->current = nullptr;  // Set current to nullptr indicating the end
+            return *this;
+        }
 
-    // Dereference operator to access the current node
-    Node<T> *operator*();
+        // Dequeue the front node and set it as the current node
+        this->current = queue.front();
+        queue.pop();
 
-    // Arrow operator to access members of the current node
-    Node<T> *operator->();
+        // Enqueue all the children of the current node
+        const auto& children = this->current->get_children();
+        for (auto child : children) {
+            if (child) {
+                queue.push(child);
+            }
+        }
 
-    // Inequality operator to compare iterators
-    bool operator!=(const BFSIterator<T, k> &other) const;
-
-    // Equality operator to compare iterators
-    bool operator==(const BFSIterator<T, k> &other) const;
+        // Return the iterator itself
+        return *this;
+    }
 };
 
-#include "../../src/iterators/BFSIterator.tpp" // Include the implementation file
+
 
 #endif // BFS_ITERATOR_H

@@ -7,36 +7,52 @@
 #include <stack>
 
 template<typename T, size_t k = 2>
-class InOrderIterator {
+class InOrderIterator : public BaseIterator<T> {
 private:
-    Node<T> *current;             // Pointer to the current node in the traversal
     std::stack<Node<T> *> stack;  // Stack to manage the nodes for traversal
 
     // Push all left children of a node onto the stack
-    void pushLeftChildren(Node<T> *node);
+    void pushLeftChildren(Node<T> *node) {
+        while (node) {
+            stack.push(node);
+            node = (node->get_children().size() > 0) ? node->get_children()[0] : nullptr;
+        }
+    }
 
 public:
     // Constructor initializes the iterator with the root node
-    explicit InOrderIterator(Node<T> *root);
+    explicit InOrderIterator(Node<T> *root) {
+        if (root) {
+            pushLeftChildren(root);
+        }
+        ++(*this);  // Move to the first element
+    }
 
     // Pre-increment operator to advance the iterator
-    InOrderIterator<T, k>& operator++();
+    InOrderIterator<T, k>& operator++() {
+        // If the stack is empty, the traversal is complete
+        if (stack.empty()) {
+            this->current = nullptr;  // Set current to nullptr indicating the end
+            return *this;
+        }
 
-    // Dereference operator to access the current node
-    Node<T> *operator*();
+        // Pop the top node from the stack and set it as the current node
+        this->current = stack.top();
+        stack.pop();
 
-    // Arrow operator to access members of the current node
-    Node<T> *operator->();
+        // Check if the current node has a right child
+        Node<T> *node = (this->current->get_children().size() > 1) ? this->current->get_children()[1] : nullptr;
 
-    // Inequality operator to compare iterators
-    bool operator!=(const InOrderIterator<T, k> &other) const;
+        // If there is a right child, push its left children onto the stack
+        pushLeftChildren(node);
 
-    // Equality operator to compare iterators
-    bool operator==(const InOrderIterator<T, k> &other) const;
+        // Return the iterator itself
+        return *this;
+    }
 };
 
 
 
-#include "../../src/iterators/InOrderIterator.tpp" // Include the implementation file
+
 
 #endif // IN_ORDER_ITERATOR_H
