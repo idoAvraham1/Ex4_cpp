@@ -7,7 +7,7 @@ template<typename T, size_t k>
 void InOrderIterator<T, k>::pushLeftChildren(Node<T> *node) {
     while (node) {
         stack.push(node);
-        node = (node->children.size() > 0) ? node->children[0] : nullptr;
+        node = (node->get_children().size() > 0) ? node->get_children()[0] : nullptr;
     }
 }
 
@@ -34,7 +34,8 @@ InOrderIterator<T, k>& InOrderIterator<T, k>::operator++() {
     stack.pop();
 
     // Check if the current node has a right child
-    Node<T> *node = (current->children.size() > 1) ? current->children[1] : nullptr;
+    Node<T> *node = (current->get_children().size() > 1) ? current->get_children()[1] : nullptr;
+
 
     // If there is a right child, push its left children onto the stack
     pushLeftChildren(node);

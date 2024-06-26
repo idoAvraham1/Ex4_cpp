@@ -20,10 +20,10 @@ PreOrderIterator<T, k>& PreOrderIterator<T, k>::operator++() {
     stack.pop();
 
     // Push children of the current node to the stack in reverse order
-    for (int i = current->children.size() - 1; i >= 0; --i) {
+    for (int i = current->get_children().size() - 1; i >= 0; --i) {
         // Push each non-null child onto the stack
-        if (current->children[i]) {
-            stack.push(current->children[i]);
+        if (current->get_children()[i]) {
+            stack.push(current->get_children()[i]);
         }
     }
     return *this;  // Return the iterator

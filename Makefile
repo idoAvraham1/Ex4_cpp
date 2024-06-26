@@ -57,7 +57,7 @@ demovalgrind: demo
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./demo | { egrep "==" || true; }
 
 
-testvalgrind: test
+testsvalgrind: test
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./test 2>&1 | { egrep "==" || true; }
 
 clean:

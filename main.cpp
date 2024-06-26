@@ -124,9 +124,9 @@ int main() {
  Node<std::string> n1_string("CAN");
  Node<std::string> n2_string("I");
  Node<std::string> n3_string("BE");
- Node<std::string> n4_string("HOMO!?");
+ Node<std::string> n4_string("****!?");
  Node<std::string> n5_string("SHLOMI");
- Node<std::string> n6_string("GAY");
+ Node<std::string> n6_string("***");
 
     Tree<string,3> three_ary_tree_strings; // 3-ary tree.
     three_ary_tree_strings.add_root(root_string);
@@ -138,5 +138,5 @@ int main() {
     three_ary_tree_strings.add_sub_node(n3_string, n6_string);
     three_ary_tree_strings.drawTree();
 
-  
+  return 0;
 }

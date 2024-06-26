@@ -19,7 +19,7 @@ private:
   // helper struct to compare the node value
   struct CompareNodes {
     bool operator()(Node<T> *a, Node<T> *b) const {
-      return a->value < b->value; // Min-heap comparison
+      return a->get_value() < b->get_value(); // Min-heap comparison
     }
   };
 

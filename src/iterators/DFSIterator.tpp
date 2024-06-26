@@ -25,9 +25,10 @@ DFSIterator<T, k>& DFSIterator<T, k>::operator++() {
     stack.pop();
 
     // Push all children of the current node onto the stack in reverse order
-    for (int i = current->children.size() - 1; i >= 0; --i) {
-        if (current->children[i]) {
-            stack.push(current->children[i]);
+    const auto& children = current->get_children();
+    for (int i = children.size() - 1; i >= 0; --i) {
+        if (children[i]) {
+            stack.push(children[i]);
         }
     }
 

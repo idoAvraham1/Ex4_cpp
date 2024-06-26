@@ -6,15 +6,29 @@
 #include <cstddef>
 #include <vector>
 
+
+
+
+
 template <typename T> class Node {
+private:
+    T value;
+    size_t k; // Number of children
+    std::vector<Node<T>*> children;
+
 public:
-  T value;
-  size_t k; // Number of children
-  std::vector<Node<T> *> children;
+    explicit Node(T val, size_t k = 2);
 
-  explicit Node(T val, size_t k = 2);
+    // Getters
+    T get_value() const;
+    size_t get_k() const;
+     std::vector<Node<T>*>& get_children() ;
 
-  T get_value();
+    // Setters
+    void set_value(T val);
+    void set_k(size_t k);
+    void set_children(const std::vector<Node<T>*>& children);
+   
 };
 
 #include "../src/Node.tpp" // Include the implementation file

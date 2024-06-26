@@ -16,7 +16,7 @@ void MinHeapIterator<T, k>::traverse(Node<T> *node) {
         minHeap.pop();
         heap.push_back(current); // Collect the node
 
-        for (auto child : current->children) {
+        for (auto child : current->get_children()) {
             if (child) {
                 minHeap.push(child); // Push children to the heap
             }
@@ -25,7 +25,7 @@ void MinHeapIterator<T, k>::traverse(Node<T> *node) {
 
     // Directly sort the collected nodes in ascending order
     std::sort(heap.begin(), heap.end(), [](Node<T>* a, Node<T>* b) {
-        return a->value < b->value;
+        return a->get_value() < b->get_value();
     });
 
 }

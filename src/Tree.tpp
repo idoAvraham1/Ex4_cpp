@@ -22,7 +22,7 @@ Tree<T, k>::~Tree() {
 template <typename T, size_t k>
 void Tree<T, k>::clear(Node<T> *node) {
   if (node) {
-    for (auto child : node->children) {
+    for (auto child : node->get_children()) {
       clear(child); // Clear each child
     }
     delete node; // Delete the node itself
@@ -32,22 +32,23 @@ void Tree<T, k>::clear(Node<T> *node) {
 // Add root to the tree
 template <typename T, size_t k>
 void Tree<T, k>::add_root(Node<T> &root_node) {
-  root = new Node<T>(root_node.value, k); // Initialize root with the correct arity
+  root = new Node<T>(root_node.get_value(), k); // Initialize root with the correct arity
 }
 
-// Add sub-node to a parent node
+/// Add sub-node to a parent node
 template <typename T, size_t k>
 bool Tree<T, k>::add_sub_node(Node<T> &parent_node, Node<T> &sub_node) {
-  Node<T> *parent = find_node(root, parent_node.value); // Find the parent node
+  Node<T> *parent = find_node(root, parent_node.get_value()); // Find the parent node
   if (parent) {
-    for (size_t i = 0; i < parent->k; ++i) {
-      if (!parent->children[i]) {
-        parent->children[i] = new Node<T>(sub_node.value, k); // Initialize sub_node with the correct arity
+    auto& children = parent->get_children();
+    for (size_t i = 0; i < parent->get_k(); ++i) {
+      if (!children[i]) {
+        children[i] = new Node<T>(sub_node.get_value(), k); // Initialize sub_node with the correct arity
         return true; // Successfully added sub-node
       }
     }
   }
-   // Failed to add sub-node
+  // Failed to add sub-node
   throw std::runtime_error("Failed to add sub-node!");
 }
 
@@ -57,10 +58,10 @@ Node<T> *Tree<T, k>::find_node(Node<T> *node, T value) {
   if (!node)
     return nullptr;
 
-  if (node->value == value)
+  if (node->get_value() == value)
     return node; // Node found
 
-  for (auto child : node->children) {
+  for (auto child : node->get_children()) {
     Node<T> *result = find_node(child, value); // Recursive search in children
     if (result)
       return result;
@@ -189,9 +190,9 @@ void Tree<T, k>::drawTree() {
 
             // Recursively draw the children
             float newXOffset = xOffset / 2;
-            float childX = x - xOffset * ((node->children.size() - 1) / 2.0f);
+            float childX = x - xOffset * ((node->get_children().size() - 1) / 2.0f);
             float childY = y + verticalSpacing;
-            for (auto child : node->children) {
+            for (auto child : node->get_children()) {
                 if (child) {
                     // Draw the line connecting the node to its child
                     sf::Vertex line[] = {

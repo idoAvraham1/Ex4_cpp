@@ -25,7 +25,7 @@ BFSIterator<T, k>& BFSIterator<T, k>::operator++() {
     queue.pop();
 
     // Enqueue all the children of the current node
-    for (auto child: current->children) {
+    for (auto child: current->get_children()) {
         if (child) {
             queue.push(child);
         }

@@ -14,7 +14,7 @@ PostOrderIterator<T, k>::PostOrderIterator(Node<T> *root) : current(nullptr) {
             stack2.push(node);  // Push the node onto stack2
 
             // Push all children of the node onto stack1
-            for (auto child : node->children) {
+            for (auto child : node->get_children()) {
                 if (child) {
                     stack1.push(child);
                 }

@@ -20,7 +20,7 @@ void check_iterator_values2(Iterator begin, Iterator end, const std::vector<T> &
             std::cerr << "Value mismatch at index " << index << ": expected " << expected_value << ", got "
                       << (*it)->value << std::endl;
         }
-        REQUIRE((*it)->value == expected_value);  // Check the value
+        REQUIRE((*it)->get_value() == expected_value);  // Check the value
         ++it;
         ++index;
     }
@@ -45,7 +45,7 @@ void check_iterator_values(Iterator begin, Iterator end, const vector<T> &expect
     auto it = begin;
     for (const auto &expected_value: expected_values) {
         REQUIRE(it != end);  // Ensure we haven't reached the end prematurely
-        REQUIRE((*it)->value == expected_value);  // Check the value
+        REQUIRE((*it)->get_value() == expected_value);  // Check the value
         ++it;
     }
     REQUIRE(it == end);  // Ensure the iterator reaches the end
